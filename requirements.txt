@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+firebase-admin
+python-dotenv
+google-genai
+python-multipart
+pytest
+pytest-asyncio
+httpx

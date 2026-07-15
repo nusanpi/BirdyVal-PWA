@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="Perfil — BirdyVal">Perfil — BirdyVal</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#4fa17f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="BirdyVal" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+
+  <body class="perfil-page">
+    <mi-cabecera></mi-cabecera>
+
+    <main class="perfil" aria-labelledby="perfilUsuario">
+      <header class="perfil-header">
+        <button
+          class="perfil-back"
+          aria-label="Volver"
+          data-i18n-aria-label="Volver"
+          onclick="history.back()"
+        >
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        <h1
+          id="perfilUsuario"
+          class="perfil-username"
+          data-i18n="common.loading"
+        >
+          Cargando...
+        </h1>
+        <button
+          id="btnMensaje"
+          class="perfil-settings btn-mensaje-header"
+          style="display: none"
+          aria-label="Enviar mensaje"
+          title="Enviar mensaje"
+        >
+          <i class="fa fa-paper-plane"></i>
+        </button>
+      </header>
+
+      <section class="perfil-info card">
+        <div class="perfil-top">
+          <div class="perfil-avatar">
+            <img
+              src="img/user_default.png"
+              alt="Avatar de usuario"
+              onerror="this.src = 'img/user_default.png'"
+            />
+          </div>
+          <div class="perfil-stats">
+            <div class="stat">
+              <span id="statSeguidores" class="stat-number">0</span>
+              <span class="stat-label" data-i18n="Seguidores">Seguidores</span>
+            </div>
+            <div class="stat">
+              <span id="statSiguiendo" class="stat-number">0</span>
+              <span class="stat-label" data-i18n="Siguiendo">Siguiendo</span>
+            </div>
+            <div class="stat">
+              <span id="statAvistamientos" class="stat-number">0</span>
+              <span class="stat-label" data-i18n="Avistamientos"
+                >Avistamientos</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="perfil-level">
+          <span class="nivel-tag" data-i18n="Cargando nivel..."
+            >Cargando nivel...</span
+          >
+        </div>
+
+        <p
+          class="perfil-bio"
+          data-i18n="¡Bienvenido a la comunidad de BirdyVal! Explora, avista y registra aves de la Comunidad Valenciana."
+        >
+          Explorando la naturaleza y registrando las aves de la Comunidad
+          Valenciana.
+        </p>
+
+        <div class="perfil-actions">
+          <button
+            id="btnSeguir"
+            class="boton principal btn-seguir"
+            style="display: none"
+            data-i18n="Seguir"
+          >
+            Seguir
+          </button>
+          <button
+            id="btnSiguiendo"
+            class="boton btn-siguiendo"
+            style="display: none"
+            data-i18n="Siguiendo"
+          >
+            Siguiendo
+          </button>
+          <div id="loadingAction" class="boton principal" data-i18n="loading">
+            Cargando...
+          </div>
+        </div>
+
+        <div
+          class="perfil-toggle"
+          role="tablist"
+          aria-label="Ver contenido de perfil"
+        >
+          <button
+            class="toggle-btn active"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-avistamientos"
+            data-target="avistamientos"
+            aria-label="Ver avistamientos"
+            data-i18n-aria-label="Ver avistamientos"
+          >
+            <i class="fa fa-binoculars" aria-hidden="true"></i>
+            <span class="visually-hidden">Avistamientos</span>
+          </button>
+          <button
+            class="toggle-btn"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-premios"
+            data-target="premios"
+            aria-label="Ver premios"
+            data-i18n-aria-label="Ver premios"
+          >
+            <i class="fa fa-award" aria-hidden="true"></i>
+            <span class="visually-hidden">Premios</span>
+          </button>
+          <span class="toggle-indicator" aria-hidden="true"></span>
+        </div>
+      </section>
+
+      <section id="panel-avistamientos" class="perfil-panel" role="tabpanel">
+        <div class="perfil-grid" id="gridAvistamientos">
+          <p
+            class="loading-avistamientos"
+            data-i18n="Cargando avistamientos..."
+          >
+            Cargando avistamientos...
+          </p>
+        </div>
+      </section>
+
+      <section id="panel-premios" class="perfil-panel hidden" role="tabpanel">
+        <h2 class="perfil-feed-title" data-i18n="Premios recibidos">
+          Premios recibidos
+        </h2>
+        <div class="premio-card">
+          <div class="premio-icon"><i class="fa fa-egg"></i></div>
+          <div class="premio-info">
+            <p class="premio-titulo" data-i18n="Recién llegado">
+              Recién llegado
+            </p>
+            <p class="premio-desc" data-i18n="Te has unido a BirdyVal.">
+              Te has unido a BirdyVal.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <mi-pie></mi-pie>
+
+    <script type="module" src="js/mis-etiquetas.js"></script>
+    <script type="module" src="js/perfil_publico.js"></script>
+  </body>
+</html>

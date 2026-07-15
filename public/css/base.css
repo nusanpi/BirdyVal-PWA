@@ -1,0 +1,39 @@
+/* ================================
+   BASE.CSS — BirdyVal
+   Variables, tipografías y estilos globales
+================================ */
+:root {
+  /* Paleta: Fresco natural */
+  --color-primary: #2FA46A; /* verde brillante */
+  --color-secondary: #0EA5A4; /* verde-azulado */
+  --color-accent: #F6C04D; /* amarillo cálido para CTA */
+  --color-bg: #F7FBF8; /* fondo muy claro */
+  --color-surface: #FFFFFF; /* tarjetas y superficies */
+  --color-text: #1F2937; /* texto principal (gris muy oscuro) */
+  --color-muted: #6B7280; /* texto secundario / placeholder */
+  --color-shadow: rgba(15, 20, 30, 0.06);
+  --radius: 10px;
+  --grad-start: #F8FBF6; /* sutil degradado */
+  --grad-end: #E6F6EE;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-bg);
+  background: linear-gradient(
+    168.59deg,
+    var(--grad-start) 15%,
+    var(--grad-end) 62%
+  );
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}

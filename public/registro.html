@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="Regístrate">Registro — BirdyVal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+  <body>
+    <main class="login-page">
+      <header class="header header--login">
+        <img src="img/logo_sintexto.png" alt="Logo BirdyVal" class="logo" width="440" height="447" />
+      </header>
+
+      <section class="login-container">
+        <div class="card login-card">
+          <h2 class="login-title" data-i18n="Crear cuenta">Crear cuenta</h2>
+
+          <form id="registerForm" class="login-form" autocomplete="off">
+            <label class="input-group">
+              <span class="input-label" data-i18n="Correo electrónico"
+                >Correo electrónico</span
+              >
+              <input
+                type="email"
+                id="reg-email"
+                required
+                placeholder="tucorreo@ejemplo.com"
+                data-i18n-placeholder="tucorreo@ejemplo.com"
+              />
+              <span class="campo-error" id="error-email"></span>
+            </label>
+
+            <label class="input-group">
+              <span class="input-label" data-i18n="Nombre de usuario"
+                >Nombre de usuario</span
+              >
+              <input
+                type="text"
+                id="reg-username"
+                required
+                placeholder="Ej: PajareroPro"
+                data-i18n-placeholder="Ej: PajareroPro"
+                minlength="3"
+              />
+              <span class="campo-error" id="error-username"></span>
+            </label>
+
+            <label class="input-group">
+              <span class="input-label" data-i18n="Contraseña">Contraseña</span>
+              <input
+                type="password"
+                id="reg-password"
+                required
+                placeholder="Mínimo 6 caracteres"
+                data-i18n-placeholder="Mínimo 6 caracteres"
+              />
+              <span class="campo-error" id="error-password"></span>
+            </label>
+
+            <label class="input-group">
+              <span class="input-label" data-i18n="Biografía (Opcional)"
+                >Biografía (Opcional)</span
+              >
+              <textarea
+                id="reg-bio"
+                rows="3"
+                placeholder="Cuéntanos algo sobre ti..."
+                data-i18n-placeholder="Cuéntanos algo sobre ti..."
+              ></textarea>
+            </label>
+
+            <label class="input-group">
+              <span class="input-label" data-i18n="Foto de perfil (Opcional)"
+                >Foto de perfil (Opcional)</span
+              >
+              <input type="file" id="reg-photo" accept="image/*" />
+            </label>
+
+            <button
+              type="submit"
+              class="boton principal"
+              data-i18n="Registrarse"
+            >
+              Registrarse
+            </button>
+
+            <div class="divider">o</div>
+
+            <div class="alt-actions">
+              <button type="button" id="googleBtn" class="boton secondary">
+                Registrarse con Google
+              </button>
+              <p class="signup">
+                ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+              </p>
+              <p style="font-size:0.75rem; color:var(--color-muted); text-align:center; margin-top:0.5rem;">
+                Al registrarte aceptas nuestra <a href="privacidad.html" style="color:var(--color-primary);">política de privacidad</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./js/auth.js"></script>
+  </body>
+</html>

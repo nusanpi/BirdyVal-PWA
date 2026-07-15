@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chat — BirdyVal</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#4fa17f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="BirdyVal" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+
+  <body class="chat-page">
+    <!-- Header del chat -->
+    <header class="chat-header">
+      <button
+        class="chat-header__back"
+        aria-label="Volver a mensajes"
+        onclick="history.back()"
+      >
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <a
+        id="chatHeaderLink"
+        class="chat-header__link"
+        href="#"
+        aria-label="Ver perfil"
+      >
+        <img
+          id="chatHeaderAvatar"
+          class="chat-header__avatar"
+          src="img/user_default.png"
+          alt="Avatar"
+          onerror="this.src='img/user_default.png'"
+        />
+        <div class="chat-header__info">
+          <p class="chat-header__nombre" id="chatHeaderNombre">Cargando...</p>
+          <p class="chat-header__estado" id="chatHeaderEstado">BirdyVal</p>
+        </div>
+      </a>
+    </header>
+
+    <!-- Área de mensajes -->
+    <section
+      class="chat-mensajes"
+      id="chatMensajes"
+      aria-live="polite"
+      aria-label="Mensajes"
+    >
+      <p class="chat-loading">
+        <i class="fa fa-spinner fa-spin"></i> Cargando mensajes...
+      </p>
+    </section>
+
+    <!-- Input de envío -->
+    <footer class="chat-footer">
+      <div class="chat-footer-inner">
+        <textarea
+          id="chatInput"
+          class="chat-input"
+          placeholder="Escribe un mensaje..."
+          rows="1"
+          aria-label="Escribe un mensaje"
+          maxlength="1000"
+        ></textarea>
+        <button
+          id="chatSendBtn"
+          class="chat-send-btn"
+          aria-label="Enviar mensaje"
+          disabled
+        >
+          <i class="fa fa-paper-plane"></i>
+        </button>
+      </div>
+    </footer>
+
+    <script type="module" src="js/mis-etiquetas.js"></script>
+    <script type="module" src="js/chat.js"></script>
+  </body>
+</html>

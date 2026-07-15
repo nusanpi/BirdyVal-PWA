@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BirdyVal</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#4fa17f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="BirdyVal" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <!-- Estilos -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Fuentes e iconos -->
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <mi-cabecera></mi-cabecera>
+
+    <!-- CONTENIDO -->
+    <main class="home">
+      <!-- BUSCADOR -->
+      <section class="card buscador">
+        <div
+          class="buscador-contenido buscador-launch"
+          role="button"
+          tabindex="0"
+          aria-label="Abrir buscador de especies"
+        >
+          <i class="fa fa-search"></i>
+          <input
+            id="homeSearchInput"
+            type="text"
+            placeholder="Introduce nombre de especie..."
+            data-i18n-placeholder="Introduce nombre de especie..."
+            readonly
+          />
+        </div>
+      </section>
+
+      <!-- MAPA -->
+      <section class="mapa">
+        <div
+          class="card card--mapa-home"
+          onclick="window.location.href = 'mapa.html'"
+          style="cursor: pointer"
+        >
+          <div class="map-header-premium">
+            <div class="map-header-left">
+              <div class="map-icon-wrapper">
+                <i class="fa-solid fa-location-crosshairs icon-pulse"></i>
+              </div>
+              <div class="map-header-texts">
+                <h2 class="map-title-premium" data-i18n="Radar de Valencia">Radar de Valencia</h2>
+                <p class="map-subtitle-premium" data-i18n="Aves detectadas en tiempo real">Aves detectadas en tiempo real</p>
+              </div>
+            </div>
+            <div class="map-status-badge">
+              <i class="fa-solid fa-satellite-dish"></i>
+              <span id="cercanas-conteo" data-i18n="Escaneando...">Escaneando...</span>
+            </div>
+          </div>
+
+          <div class="card__mapa">
+            <!-- Mini Mapa Leaflet -->
+            <div
+              id="mini-map"
+              style="
+                width: 100%;
+                height: 300px;
+                border-radius: 12px;
+                z-index: 0;
+              "
+            ></div>
+          </div>
+
+          <div class="map-footer-premium">
+            <div class="map-footer-text">
+              <span class="footer-main-text" data-i18n="Abrir mapa interactivo">Abrir mapa interactivo</span>
+              <span class="footer-sub-text" data-i18n="Explora todas las zonas de avistamiento">Explora todas las zonas de avistamiento</span>
+            </div>
+            <div class="map-arrow-btn">
+              <i class="fa fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AVES CERCANAS -->
+      <section class="cercanas">
+        <div class="card card--cercanas">
+          <div class="cercanas-header">
+            <div class="cercanas-header__titulo">
+              <h2 class="card__title">Aves Cerca de Ti</h2>
+            </div>
+            <div class="cercanas-header__legend"></div>
+          </div>
+          <p class="cercanas-subtitulo">
+            Avistamientos recientes a menos de 3 km
+          </p>
+          <div id="cercanas-lista">
+            <div class="cercanas-loading">
+              <div class="cercanas-spinner"></div>
+              <span>Activando radar...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TARJETAS EDUCATIVAS -->
+      <section class="educacion">
+        <div class="card card--educacion">
+          <div class="educacion__header">
+            <i class="fa fa-leaf" style="color: green"></i>
+            <h3 style="color: black" data-i18n="¿Sabías que...?">
+              ¿Sabías que...?
+            </h3>
+          </div>
+          <div id="tarjeta-educativa" class="tarjeta-educativa">
+            <!-- Las tarjetas se generarán dinámicamente -->
+          </div>
+        </div>
+      </section>
+
+      <!-- COMUNIDAD -->
+      <section class="comunidad">
+        <div class="card card--comunidad">
+          <h2 class="card__title" data-i18n="Actividad reciente">
+            Actividad reciente
+          </h2>
+          <p
+            style="color: #6b7280; font-size: 14px; margin: -0.5rem 0 1rem 0"
+            data-i18n="Descubre los últimos avistamientos de la comunidad"
+          >
+            Descubre los últimos avistamientos de la comunidad
+          </p>
+
+          <div id="comunidad-feed">
+            <p
+              class="loading-text"
+              data-i18n="Cargando últimos avistamientos..."
+            >
+              Cargando últimos avistamientos...
+            </p>
+          </div>
+
+          <button
+            class="boton principal"
+            onclick="window.location.href = 'comunidad.html'"
+          >
+            <i class="fa fa-search" style="margin-right: 6px"></i>
+            <span data-i18n="Explorar más avistamientos"
+              >Explorar más avistamientos</span
+            >
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <mi-pie></mi-pie>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script type="module" src="js/mis-etiquetas.js"></script>
+    <script type="module" src="./js/comunidad_home.js"></script>
+    <script type="module" src="./js/educacion.js"></script>
+    <script type="module" src="./js/aves_cercanas_home.js"></script>
+  </body>
+</html>

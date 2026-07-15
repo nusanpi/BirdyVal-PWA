@@ -1,0 +1,118 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/firebase init hosting
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+venv.bak/
+env.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+.windows
+
+# Environment variables y configuración
+.env
+.env.local
+.env.*.local
+config.json
+secrets.json
+
+# Modelos de Machine Learning y caché
+.cache/
+transformers_cache/
+models/
+*.pth
+*.pb
+*.onnx
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# Node (si se usa)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Firebase 
+.firebase/
+firebase-debug.log
+
+# Archivos del proyecto específicos
+*.pyc
+.ipynb_checkpoints/
+
+# ── Datos cedidos por la SVO (NO subir al repo público) ──
+public/data/aves_cv_enriched.json
+scripts_python/aves_cv.json
+scripts_python/atlas_especies.json
+scripts_python/*.xls
+
+# Credenciales
+**/firebase-service-account.json
+*.pem
+*.key
+
+# Media pesada
+*.mp4
+*.mov
+
+# PDFs
+*.pdf
+
+# Claude / agentes
+.claude/
+claude.md
+.agents/
+.continue/
+skills-lock.json

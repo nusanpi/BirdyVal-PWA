@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ficha especie — BirdyVal</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#4fa17f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="BirdyVal" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+  <body>
+    <mi-cabecera></mi-cabecera>
+
+    <main class="ficha">
+      <header class="ficha-hero">
+        <button
+          class="ficha-back"
+          aria-label="Volver"
+          data-i18n-aria-label="Volver"
+          onclick="history.back()"
+        >
+          <i class="fa fa-arrow-left"></i>
+        </button>
+
+        <div id="galleryContainer" class="gallery-container">
+          <img
+            src="img/logo_sintexto.png"
+            class="gallery-item"
+            alt="Cargando..."
+            data-i18n-alt="common.loading"
+          />
+        </div>
+
+        <div class="ficha-hero__overlay">
+          <h1 id="fichaTitle" class="ficha-title" data-i18n="common.loading">
+            Cargando...
+          </h1>
+          <p id="fichaSciName" class="ficha-subtitle">...</p>
+
+          <div class="ficha-actions">
+            <button
+              id="btnAudio"
+              class="btn-audio"
+              title="Escuchar"
+              data-i18n-title="Escuchar"
+              hidden
+              disabled
+            >
+              <i class="fa fa-play"></i> Escuchar
+            </button>
+          </div>
+        </div>
+
+        <div id="galleryCount" class="gallery-indicator" style="display: none">
+          1/1
+        </div>
+      </header>
+
+      <section class="ficha-cards">
+        <div id="infoGrid" class="info-grid"></div>
+      </section>
+
+      <section class="ficha-about card">
+        <h3 data-i18n="Sobre este pájaro">Sobre este pájaro</h3>
+        <p id="fichaDesc">Buscando información en la base de datos...</p>
+      </section>
+
+      <div class="ficha-cta">
+        <button class="boton principal" data-i18n="AÑADIR A MI DIARIO">
+          AÑADIR A MI DIARIO
+        </button>
+      </div>
+    </main>
+
+    <mi-pie></mi-pie>
+
+    <script type="module" src="js/mis-etiquetas.js"></script>
+
+    <script type="module">
+      import { db } from "./js/firebase.js";
+      import {
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+      import { getCurrentLang, t } from "./js/i18n.js";
+      import { mostrarToast } from "./js/notificaciones.js";
+
+      // Obtener ID de la URL (ej: ficha_especie.html?id=anapla1)
+      const params = new URLSearchParams(window.location.search);
+      const birdId = params.get("id");
+
+      // Referencias al DOM
+      const domGallery = document.getElementById("galleryContainer");
+      const domTitle = document.getElementById("fichaTitle");
+      const domSci = document.getElementById("fichaSciName");
+      const domDesc = document.getElementById("fichaDesc");
+      const domGrid = document.getElementById("infoGrid");
+      const btnAudio = document.getElementById("btnAudio");
+      const galleryCount = document.getElementById("galleryCount");
+
+      // --- AUDIO PLAYER ---
+      let currentAudio = null;
+
+      async function cargarFicha() {
+        // Estado inicial: ocultar botón hasta confirmar que hay audio.
+        btnAudio.style.display = "none";
+        btnAudio.disabled = true;
+        btnAudio.onclick = null;
+
+        if (!birdId) {
+          mostrarToast(t("ficha.noId"), "error");
+          setTimeout(() => (window.location.href = "buscador.html"), 1800);
+          return;
+        }
+
+        try {
+          // 1. Consultar Firebase
+          const docRef = doc(db, "especies", birdId);
+          const docSnap = await getDoc(docRef);
+
+          if (!docSnap.exists()) {
+            domTitle.innerText = t("ficha.notFound");
+            domDesc.innerText = t("ficha.noData");
+            return;
+          }
+
+          const data = docSnap.data();
+
+          // 2. Rellenar Textos Básicos según idioma activo
+          const lang = getCurrentLang();
+          domTitle.innerText =
+            lang === "ca"
+              ? data.nombre_va ||
+                data.nombre_es ||
+                data.commonName ||
+                t("ficha.unknownName")
+              : data.nombre_es ||
+                data.nombre_va ||
+                data.commonName ||
+                t("ficha.unknownName");
+          domSci.innerText = data.scientificName;
+
+          // Descripción según idioma activo
+          let descripcion =
+            lang === "ca"
+              ? data.desc_va ||
+                data.desc_es ||
+                data.wikipedia_extract ||
+                t("ficha.noDescription")
+              : data.desc_es ||
+                data.desc_va ||
+                data.wikipedia_extract ||
+                t("ficha.noDescription");
+          // Limpiamos un poco si viene muy sucia
+          if (descripcion.length > 400)
+            descripcion = descripcion.substring(0, 400) + "...";
+          domDesc.innerText = descripcion;
+
+          // 3. Rellenar Galería (Prioridad: Galería > Wiki Image > Logo)
+          let imagenes = [];
+          if (data.galeria && data.galeria.length > 0) {
+            imagenes = data.galeria; // Array de fotos de Commons
+          } else if (data.wikipedia_image) {
+            imagenes = [data.wikipedia_image];
+          } else {
+            imagenes = ["img/logo_sintexto.png"]; // Fallback
+          }
+
+          domGallery.innerHTML = imagenes
+            .map(
+              (img) =>
+                `<img src="${img}" class="gallery-item" alt="Foto de ${data.commonName}" loading="lazy" onclick="window.open(this.src)">`,
+            )
+            .join("");
+
+          if (imagenes.length > 1) {
+            galleryCount.style.display = "block";
+            galleryCount.innerText = `1/${imagenes.length}`;
+            // Pequeño script para actualizar el contador al hacer scroll
+            domGallery.addEventListener("scroll", () => {
+              const index =
+                Math.round(domGallery.scrollLeft / domGallery.clientWidth) + 1;
+              galleryCount.innerText = `${index}/${imagenes.length}`;
+            });
+          }
+
+          // 4. Rellenar Audio
+          if (data.audio && data.audio.url) {
+            btnAudio.style.display = "inline-flex";
+            btnAudio.disabled = false;
+            const lang = getCurrentLang();
+            const listenLabel = lang === "ca" ? "Escoltar" : "Escuchar";
+            btnAudio.innerHTML = `<i class="fa fa-play"></i> ${listenLabel}`;
+            btnAudio.title = listenLabel;
+            btnAudio.onclick = () => toggleAudio(data.audio.url);
+          }
+
+          // 5. TARJETAS INTELIGENTES (La lógica que pediste)
+          renderizarTarjetas(data);
+        } catch (error) {
+          console.error("Error cargando ficha:", error);
+        }
+      }
+
+      function renderizarTarjetas(data) {
+        domGrid.innerHTML = ""; // Limpiar
+
+        const lang = getCurrentLang();
+
+        // Mapa de traducción de valores comunes ES -> CA
+        const valoresCA = {
+          // Frecuencia
+          "Muy común": "Molt comú",
+          Común: "Comú",
+          "Poco común": "Poc comú",
+          Rara: "Rara",
+          "No avistado / Rareza": "No avistat / Raresa",
+          Desconocido: "Desconegut",
+          // Actividad
+          Diurno: "Diürn",
+          Nocturno: "Nocturn",
+          "Nocturno/Crepuscular": "Nocturn/Crepuscular",
+          Crepuscular: "Crepuscular",
+          // Dieta
+          Omnívoro: "Omnívor",
+          Insectívoro: "Insectívor",
+          Frugívoro: "Frugívor",
+          Granívoro: "Granívor",
+          Carnívoro: "Carnívor",
+          Piscívoro: "Piscívor",
+          Herbívoro: "Herbívor",
+          Nectarívoro: "Nectarívor",
+          Invertebrados: "Invertebrats",
+          "Plantas acuáticas": "Plantes aquàtiques",
+          Peces: "Peixos",
+          Anfibios: "Amfibis",
+          Insectos: "Insectes",
+          Semillas: "Llavors",
+          Plantas: "Plantes",
+          Hierba: "Herba",
+          Granos: "Grans",
+          Algas: "Algues",
+          Crustáceos: "Crustacis",
+          "Insectos acuáticos": "Insectes aquàtics",
+          "Peces pequeños": "Peixos xicotets",
+          // Colores
+          Negro: "Negre",
+          Blanco: "Blanc",
+          Marrón: "Marró",
+          Gris: "Gris",
+          Verde: "Verd",
+          Azul: "Blau",
+          Rojo: "Vermell",
+          Amarillo: "Groc",
+          Naranja: "Taronja",
+          Rosa: "Rosa",
+          Pardo: "Pard",
+        };
+
+        function traducirValor(val) {
+          if (lang !== "ca" || !val) return val;
+          // Traducir cada parte separada por comas
+          return val
+            .split(",")
+            .map((part) => {
+              const trimmed = part.trim();
+              return valoresCA[trimmed] || trimmed;
+            })
+            .join(", ");
+        }
+
+        // Definimos todos los posibles campos con sus iconos y etiquetas
+        const catalog = {
+          frecuencia: {
+            icon: "fa-bar-chart",
+            label: lang === "ca" ? "Freqüència" : "Frecuencia",
+            val: traducirValor(data.frecuencia),
+          },
+          tamano: {
+            icon: "fa-ruler",
+            label: lang === "ca" ? "Mida" : "Tamaño",
+            val: data.tamano,
+          },
+          dieta: {
+            icon: "fa-utensils",
+            label: lang === "ca" ? "Dieta" : "Dieta",
+            val: traducirValor(data.dieta),
+          },
+          colores: {
+            icon: "fa-palette",
+            label: lang === "ca" ? "Colors" : "Colores",
+            val: traducirValor(data.colores),
+          },
+          actividad: {
+            icon: "fa-clock",
+            label: lang === "ca" ? "Activitat" : "Actividad",
+            val: traducirValor(data.actividad),
+          },
+          peso: {
+            icon: "fa-weight-hanging",
+            label: lang === "ca" ? "Pes" : "Peso",
+            val: data.peso,
+          },
+        };
+
+        // REGLA 1: Frecuencia SIEMPRE primero
+        crearTarjeta(catalog.frecuencia);
+
+        // REGLA 2: Orden de preferencia del resto
+        // Si el dato existe y no es "N/D" o null, lo mostramos
+        const preferencia = ["tamano", "dieta", "peso", "colores", "actividad"];
+
+        preferencia.forEach((key) => {
+          const item = catalog[key];
+          // Filtro: Que exista valor y que no sea un placeholder vacío
+          if (item.val && item.val !== "N/D" && item.val !== "Desconocido") {
+            crearTarjeta(item);
+          }
+        });
+      }
+
+      function crearTarjeta(item) {
+        if (!item.val) return; // Doble chequeo
+
+        const div = document.createElement("div");
+        div.className = "info-card";
+        div.innerHTML = `
+            <h4><i class="fa ${item.icon}" aria-hidden="true"></i> ${item.label}</h4>
+            <p>${item.val}</p>
+        `;
+        domGrid.appendChild(div);
+      }
+
+      function toggleAudio(url) {
+        const lang = getCurrentLang();
+        const listenText = lang === "ca" ? "Escoltar" : "Escuchar";
+        const pauseText = lang === "ca" ? "Pausar" : "Pausar";
+        if (currentAudio && !currentAudio.paused) {
+          currentAudio.pause();
+          btnAudio.innerHTML = `<i class="fa fa-play"></i> ${listenText}`;
+        } else {
+          if (!currentAudio || currentAudio.src !== url) {
+            currentAudio = new Audio(url);
+          }
+          currentAudio.play();
+          btnAudio.innerHTML = `<i class="fa fa-pause"></i> ${pauseText}`;
+
+          currentAudio.onended = () => {
+            btnAudio.innerHTML = `<i class="fa fa-play"></i> ${listenText}`;
+          };
+        }
+      }
+
+      // Arrancar
+      document.addEventListener("DOMContentLoaded", cargarFicha);
+      document.addEventListener("birdyval:language-changed", cargarFicha);
+    </script>
+  </body>
+</html>

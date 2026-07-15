@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>Nuevo Avistamiento — BirdyVal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+  <body class="subida-page-modern">
+    <header class="app-header">
+      <button
+        class="header-icon-btn close-btn"
+        onclick="history.back()"
+        aria-label="Volver atrás"
+        data-i18n-aria-label="Volver atrás"
+      >
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <h1 data-i18n="Nuevo Avistamiento">Nuevo Avistamiento</h1>
+      <div style="width: 24px"></div>
+    </header>
+
+    <main class="main-content-modern">
+      <form id="formAvistamiento">
+        <div
+          class="media-upload-container"
+          style="display: flex; gap: 12px; margin-bottom: 20px"
+        >
+          <!-- Foto -->
+          <div class="photo-upload-container" style="flex: 1; margin: 0">
+            <label
+              for="fotoInput"
+              class="photo-uploader"
+              id="photoUploaderLabel"
+            >
+              <div class="upload-placeholder-content">
+                <div class="icon-circle">
+                  <i class="fa fa-camera"></i>
+                </div>
+                <span data-i18n="Añadir foto">Añadir foto</span>
+              </div>
+              <img
+                id="fotoPreview"
+                class="photo-preview hidden"
+                src=""
+                alt="Previsualización"
+              />
+            </label>
+            <input type="file" id="fotoInput" accept="image/*" hidden />
+            <input
+              type="file"
+              id="fotoCameraInput"
+              accept="image/*"
+              capture="environment"
+              hidden
+            />
+          </div>
+          <!-- Audio -->
+          <div class="photo-upload-container" style="flex: 1; margin: 0">
+            <label
+              for="audioInput"
+              class="photo-uploader"
+              id="audioUploaderLabel"
+              style="
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div
+                class="upload-placeholder-content"
+                id="audioPlaceholderContent"
+              >
+                <div class="icon-circle">
+                  <i class="fa fa-microphone"></i>
+                </div>
+                <span data-i18n="Añadir audio">Añadir audio</span>
+              </div>
+              <div
+                id="audioPreviewContainer"
+                style="
+                  display: none;
+                  width: 100%;
+                  height: 100%;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 8px;
+                  padding: 10px;
+                  box-sizing: border-box;
+                "
+              >
+                <audio
+                  id="audioPreview"
+                  class="custom-audio-player"
+                  controls
+                  style="
+                    display: none;
+                    width: 100%;
+                    max-width: 200px;
+                    height: 35px;
+                  "
+                ></audio>
+              </div>
+            </label>
+            <input type="file" id="audioInput" accept="audio/*" hidden />
+          </div>
+        </div>
+        <div id="sugerencias"></div>
+        <div class="section-label" data-i18n="Detalles">Detalles</div>
+        <div class="options-group">
+          <div class="option-row species-row" id="speciesPickerTrigger">
+            <div class="option-icon"><i class="fa fa-dove"></i></div>
+            <div class="option-content">
+              <select id="especieSelect" required style="display: none">
+                <option value="" disabled selected>
+                  Selecciona especie...
+                </option>
+              </select>
+              <span
+                id="speciesDisplayText"
+                class="select-placeholder"
+                data-i18n="Selecciona especie..."
+                >Selecciona especie...</span
+              >
+            </div>
+          </div>
+
+          <div
+            id="especiePreviewContainer"
+            style="display: none; padding: 12px; text-align: center"
+          >
+            <img
+              id="especiePreviewImg"
+              src=""
+              alt="Vista previa"
+              style="
+                max-width: 120px;
+                max-height: 120px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+              "
+            />
+          </div>
+
+          <div class="option-row location-row" id="triggerGeoBtn">
+            <div class="option-icon"><i class="fa fa-location-dot"></i></div>
+            <div class="option-content clickable">
+              <span
+                id="geoStatus"
+                class="location-placeholder"
+                data-i18n="Añadir ubicación"
+                >Añadir ubicación</span
+              >
+              <input type="hidden" id="lat" />
+              <input type="hidden" id="lng" />
+            </div>
+            <div class="option-action-icon">
+              <i class="fa fa-location-crosshairs"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-label" data-i18n="Notas">Notas</div>
+        <div class="description-container">
+          <textarea
+            id="notas"
+            rows="4"
+            data-i18n-placeholder="¿Qué estaba haciendo el ave? ¿Cuántas había?"
+          ></textarea>
+        </div>
+
+        <div class="bottom-action-container">
+          <button
+            type="submit"
+            id="btnPublicar"
+            class="boton principal full-width-btn"
+            disabled
+          >
+            Publicar Avistamiento
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <!-- SPECIES PICKER MODAL -->
+    <div
+      id="speciesModal"
+      class="species-picker-modal"
+      aria-hidden="true"
+      style="display: none"
+    >
+      <div class="add-modal__backdrop"></div>
+      <div class="species-picker-content">
+        <div class="species-picker-header">
+          <button
+            type="button"
+            class="species-picker-close"
+            id="closeSpeciesModal"
+          >
+            <i class="fa fa-arrow-left"></i>
+          </button>
+          <h3 data-i18n="Seleccionar especie">Seleccionar especie</h3>
+          <div style="width: 36px"></div>
+        </div>
+        <div class="species-picker-search">
+          <i class="fa fa-search species-picker-search-icon"></i>
+          <input
+            type="text"
+            id="speciesSearchInput"
+            placeholder="Buscar especie..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="species-picker-list" id="speciesListContainer"></div>
+      </div>
+    </div>
+
+    <div
+      id="photoChoiceModal"
+      class="location-modal"
+      aria-hidden="true"
+      style="display: none"
+    >
+      <div class="location-modal__backdrop"></div>
+      <div class="location-modal__content location-modal__content--sheet">
+        <h3>Elegir foto</h3>
+        <p>Selecciona cómo quieres añadir la foto del avistamiento.</p>
+        <div class="location-modal__actions">
+          <button type="button" id="btnTakePhotoNow" class="boton principal">
+            <i class="fa fa-camera"></i> Hacer foto ahora
+          </button>
+          <button type="button" id="btnChooseFromGallery" class="boton">
+            <i class="fa fa-images"></i> Elegir desde galería
+          </button>
+        </div>
+        <button
+          type="button"
+          id="closePhotoChoice"
+          class="location-modal__close"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="audioChoiceModal"
+      class="location-modal"
+      aria-hidden="true"
+      style="display: none"
+    >
+      <div class="location-modal__backdrop"></div>
+      <div class="location-modal__content location-modal__content--sheet">
+        <h3>Elegir audio</h3>
+        <p>Selecciona si quieres subir un audio existente o grabarlo ahora.</p>
+        <div class="location-modal__actions">
+          <button type="button" id="btnRecordAudioNow" class="boton principal">
+            <i class="fa fa-microphone"></i> Grabar ahora
+          </button>
+          <button type="button" id="btnChooseAudioFromGallery" class="boton">
+            <i class="fa fa-file-audio"></i> Elegir desde galería
+          </button>
+        </div>
+        <button
+          type="button"
+          id="closeAudioChoice"
+          class="location-modal__close"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="audioRecorderModal"
+      class="location-modal"
+      aria-hidden="true"
+      style="display: none"
+    >
+      <div class="location-modal__backdrop"></div>
+      <div class="location-modal__content location-modal__content--sheet">
+        <h3>Grabar audio</h3>
+        <p id="audioRecordingStatus">
+          Prepara el micrófono para grabar el canto o la llamada del ave.
+        </p>
+        <div class="audio-recorder-panel">
+          <div class="audio-recorder-status">
+            <span class="audio-recorder-pulse" aria-hidden="true"></span>
+            <strong id="audioRecordingTimer">00:00</strong>
+          </div>
+          <div class="location-modal__actions">
+            <button
+              type="button"
+              id="btnStartAudioRecording"
+              class="boton principal"
+            >
+              <i class="fa fa-circle"></i> Empezar grabación
+            </button>
+            <button
+              type="button"
+              id="btnStopAudioRecording"
+              class="boton"
+              disabled
+            >
+              <i class="fa fa-stop"></i> Detener y usar audio
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="btnCancelAudioRecording"
+          class="location-modal__close"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="locationChoiceModal"
+      class="location-modal"
+      aria-hidden="true"
+      style="display: none"
+    >
+      <div class="location-modal__backdrop"></div>
+      <div class="location-modal__content location-modal__content--sheet">
+        <h3>Elegir ubicación</h3>
+        <p>Selecciona cómo quieres añadir la ubicación del avistamiento.</p>
+        <div class="location-modal__actions">
+          <button type="button" id="btnUseCurrentLocation" class="boton">
+            <i class="fa fa-location-crosshairs"></i> Usar ubicación actual
+          </button>
+          <button type="button" id="btnPickOnMap" class="boton principal">
+            <i class="fa fa-map"></i> Elegir en mapa
+          </button>
+        </div>
+        <button
+          type="button"
+          id="closeLocationChoice"
+          class="location-modal__close"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="locationMapModal"
+      class="location-modal"
+      aria-hidden="true"
+      style="display: none"
+    >
+      <div class="location-modal__backdrop"></div>
+      <div class="location-modal__content location-modal__content--map">
+        <div class="location-map-header">
+          <h3>Selecciona un punto en el mapa</h3>
+          <button
+            type="button"
+            id="closeLocationMap"
+            class="location-map-close"
+          >
+            <i class="fa fa-xmark"></i>
+          </button>
+        </div>
+        <div id="locationPickMap" class="location-pick-map"></div>
+        <button
+          type="button"
+          id="btnConfirmMapLocation"
+          class="boton principal"
+          disabled
+        >
+          Confirmar ubicación
+        </button>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="js/mis-etiquetas.js"></script>
+    <script type="module" src="js/subir_avistamiento.js"></script>
+  </body>
+</html>

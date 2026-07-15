@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="Iniciar sesión">Iniciar sesión — BirdyVal</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4fa17f">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="BirdyVal" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+<body>
+  <main class="login-page">
+    <header class="header header--login">
+      <img src="img/logo_sintexto.png" alt="Logo BirdyVal" class="logo" width="440" height="447">
+      <h1 class="visually-hidden">BirdyVal</h1>
+    </header>
+
+    <section class="login-container">
+      <div class="card login-card">
+        <h2 class="login-title" data-i18n="Iniciar sesión">Iniciar sesión</h2>
+
+        <form class="login-form" autocomplete="on" novalidate>
+          <label class="input-group">
+            <span class="input-label" data-i18n="Correo o usuario">Correo o usuario</span>
+            <input type="text" name="user" id="login-user" placeholder="tucorreo@ejemplo.com" data-i18n-placeholder="tucorreo@ejemplo.com" />
+            <span class="campo-error" id="error-login-user"></span>
+          </label>
+
+          <label class="input-group">
+            <span class="input-label" data-i18n="Contraseña">Contraseña</span>
+            <input type="password" name="password" id="login-password" placeholder="Tu contraseña" data-i18n-placeholder="Tu contraseña" />
+            <span class="campo-error" id="error-login-password"></span>
+          </label>
+
+          <div class="login-actions">
+            <label class="checkbox">
+              <input type="checkbox" name="remember" /> <span data-i18n="Recuérdame">Recuérdame</span>
+            </label>
+            <a href="#" class="link small" data-i18n="¿Olvidaste la contraseña?">¿Olvidaste la contraseña?</a>
+          </div>
+
+          <button type="submit" class="boton principal" data-i18n="Iniciar sesión">Iniciar sesión</button>
+
+          <div class="divider">o</div>
+
+          <div class="alt-actions">
+            <button type="button" id="googleBtn" class="boton secondary" data-i18n="Iniciar con Google">Iniciar con Google</button>
+            <a class="signup" href="registro.html" data-i18n="¿No tienes cuenta? Regístrate">¿No tienes cuenta? Regístrate</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer footer--login">
+    <p>© 2025 BirdyVal</p>
+  </footer>
+</footer>
+
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/mis-etiquetas.js"></script>
+
+</body>
+</html>

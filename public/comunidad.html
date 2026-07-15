@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title data-i18n="messages.comunidad.pageTitle">Comunidad — BirdyVal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+  <body>
+    <header class="app-header">
+      <button class="header-icon-btn" onclick="history.back()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <h1 data-i18n="messages.comunidad.pageHeading">Comunidad</h1>
+      <div class="header-spacer"></div>
+    </header>
+
+    <main class="community-page">
+      <div
+        class="community-toggle"
+        role="tablist"
+        aria-label="Filtrar avistamientos"
+      >
+        <button
+          class="toggle-btn active"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-comunidad"
+          data-target="comunidad"
+          data-i18n-aria-label="messages.comunidad.communityTabAria"
+        >
+          <i class="fa fa-globe" aria-hidden="true"></i>
+          <span data-i18n="messages.comunidad.communityTab">Comunidad</span>
+        </button>
+        <button
+          class="toggle-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-seguidos"
+          data-target="siguiendo"
+          data-i18n-aria-label="messages.comunidad.followedTabAria"
+        >
+          <i class="fa fa-user-group" aria-hidden="true"></i>
+          <span data-i18n="messages.comunidad.followedTab">Siguiendo</span>
+        </button>
+        <span class="toggle-indicator" aria-hidden="true"></span>
+      </div>
+
+      <section id="panel-comunidad" class="community-panel" role="tabpanel">
+        <h2
+          class="community-section-title"
+          data-i18n="messages.comunidad.communityHeading"
+        >
+          Avistamientos de la comunidad
+        </h2>
+        <div class="feed-container" id="feedComunidad"></div>
+        <div
+          class="loader"
+          id="loaderComunidad"
+          data-i18n="messages.comunidad.loadingCommunity"
+        >
+          Cargando...
+        </div>
+      </section>
+
+      <section
+        id="panel-seguidos"
+        class="community-panel hidden"
+        role="tabpanel"
+      >
+        <h2
+          class="community-section-title"
+          data-i18n="messages.comunidad.followedHeading"
+        >
+          Avistamientos de seguidos
+        </h2>
+        <div class="feed-container" id="feedSeguidos"></div>
+        <div
+          class="loader"
+          id="loaderSeguidos"
+          data-i18n="messages.comunidad.loadingFollowed"
+        >
+          Cargando...
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="js/comunidad.js"></script>
+    <script type="module" src="js/mis-etiquetas.js"></script>
+    <mi-pie></mi-pie>
+  </body>
+</html>

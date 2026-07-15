@@ -1,0 +1,98 @@
+{
+  "name": "BirdyVal — Aves de Valencia",
+  "short_name": "BirdyVal",
+  "description": "App comunitaria de avistamiento e identificación de aves en la Comunitat Valenciana",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#4fa17f",
+  "lang": "es",
+  "categories": ["lifestyle", "nature", "education"],
+  "icons": [
+    {
+      "src": "/img/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/img/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Subir avistamiento",
+      "short_name": "Subir",
+      "description": "Publica un nuevo avistamiento de ave",
+      "url": "/subir_avistamiento.html",
+      "icons": [{ "src": "/img/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Ver mapa",
+      "short_name": "Mapa",
+      "description": "Explora el mapa de avistamientos",
+      "url": "/mapa.html",
+      "icons": [{ "src": "/img/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Comunidad",
+      "short_name": "Comunidad",
+      "description": "Ver el feed de la comunidad",
+      "url": "/comunidad.html",
+      "icons": [{ "src": "/img/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ]
+}

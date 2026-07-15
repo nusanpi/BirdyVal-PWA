@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>Detalle Avistamiento — BirdyVal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+  <body class="detalle-page">
+    <header class="app-header">
+      <button class="header-icon-btn" onclick="history.back()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <h1 data-i18n="Avistamiento">Avistamiento</h1>
+      <div style="width: 32px"></div>
+    </header>
+
+    <main class="main-content-detalle">
+      <div class="post-header">
+        <div class="post-user-info">
+          <img
+            id="detUserAvatar"
+            src="img/user_default.png"
+            alt="Avatar"
+            class="post-avatar"
+          />
+          <div>
+            <p
+              id="detUserName"
+              class="post-username"
+              data-i18n="common.loading"
+            >
+              Cargando...
+            </p>
+            <p id="detLocation" class="post-location">Ubicación...</p>
+          </div>
+        </div>
+        <span id="detDate" class="post-date">...</span>
+      </div>
+
+      <div class="post-media-container" style="display: flex; flex-direction: column; gap: 1rem;">
+        <img
+          id="detImage"
+          src=""
+          alt="Cargando imagen..."
+          data-i18n-alt="Cargando imagen..."
+          style="display: none;"
+        />
+        <audio
+          id="detAudio"
+          class="custom-audio-player"
+          controls
+          style="width: 100%; display: none;"
+        ></audio>
+      </div>
+
+      <div class="post-content">
+        <div class="post-species-tag">
+          <i class="fa fa-dove"></i>
+          <span id="detSpecies">Especie...</span>
+        </div>
+
+        <div class="post-caption">
+          <p id="detDescription">Cargando descripción...</p>
+        </div>
+
+        <!-- Sugerencias de la comunidad -->
+        <div id="seccionSugerencias" style="margin-top: 1rem; display: none">
+          <p style="font-size: 13px; color: #666; margin-bottom: 0.5rem">
+            <i class="fa fa-users"></i>
+            <span data-i18n="Sugerencias de la comunidad:"
+              >Sugerencias de la comunidad:</span
+            >
+          </p>
+          <div id="listaSugerencias"></div>
+        </div>
+
+        <!-- Sugerir especie -->
+        <div id="sugerirEspecieBox" style="margin: 1rem 0; display: none">
+          <button
+            id="btnMostrarSugerir"
+            style="
+              font-size: 13px;
+              color: #4fa17f;
+              background: none;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            <i class="fa fa-lightbulb"></i>
+            <span data-i18n="¿Crees que es otra especie?"
+              >¿Crees que es otra especie?</span
+            >
+          </button>
+          <div id="formSugerir" style="display: none; margin-top: 0.75rem">
+            <div class="options-group" style="margin-bottom: 10px">
+              <div
+                class="option-row species-row"
+                id="speciesPickerTriggerDetalle"
+              >
+                <div class="option-icon"><i class="fa fa-dove"></i></div>
+                <div class="option-content">
+                  <select id="selectEspecie" style="display: none">
+                    <option
+                      value=""
+                      selected
+                      data-i18n="Selecciona una especie..."
+                    >
+                      Selecciona una especie...
+                    </option>
+                  </select>
+                  <span
+                    id="speciesDisplayTextDetalle"
+                    class="select-placeholder"
+                    >Selecciona una especie...</span
+                  >
+                </div>
+              </div>
+            </div>
+            <button
+              id="btnEnviarSugerencia"
+              style="
+                margin-top: 0.25rem;
+                padding: 8px 16px;
+                background: #4fa17f;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+              "
+            >
+              <span data-i18n="Enviar sugerencia">Enviar sugerencia</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div
+      id="speciesModalDetalle"
+      class="species-picker-modal"
+      aria-hidden="true"
+      style="display: none"
+    >
+      <div class="add-modal__backdrop"></div>
+      <div class="species-picker-content">
+        <div class="species-picker-header">
+          <button
+            type="button"
+            class="species-picker-close"
+            id="closeSpeciesModalDetalle"
+          >
+            <i class="fa fa-arrow-left"></i>
+          </button>
+          <h3>Seleccionar especie</h3>
+          <div style="width: 36px"></div>
+        </div>
+        <div class="species-picker-search">
+          <i class="fa fa-search species-picker-search-icon"></i>
+          <input
+            type="text"
+            id="speciesSearchInputDetalle"
+            placeholder="Buscar especie..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="species-picker-list" id="speciesListContainerDetalle"></div>
+      </div>
+    </div>
+
+    <script type="module" src="js/detalle_avistamiento.js"></script>
+  </body>
+</html>

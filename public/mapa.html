@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Radar de Aves | BirdyVal</title>
+
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <!-- Leaflet CSS (Mapa) -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <!-- Estilos BirdyVal -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Iconos -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+  <body>
+    <!-- Botón Volver -->
+    <a href="index.html" class="btn-flotante-back">
+      <i class="fa fa-arrow-left"></i> <span data-i18n="Volver">Volver</span>
+    </a>
+
+    <!-- Loading -->
+    <div id="loading" class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <span data-i18n="Escaneando zona...">Escaneando zona...</span>
+    </div>
+
+    <!-- Mapa -->
+    <div id="map" class="map-fullscreen-container"></div>
+
+    <!-- Panel Sugerencias (Bottom Sheet) -->
+    <div id="panel-sugerencias" class="suggestions-panel">
+      <div class="panel-header">
+        <span data-i18n="Vistas frecuentemente aquí"
+          >Vistas frecuentemente aquí</span
+        >
+        <button
+          id="toggle-panel-sugerencias"
+          class="panel-toggle-btn"
+          type="button"
+          aria-label="Ocultar o mostrar panel de aves"
+          aria-expanded="true"
+        >
+          <i class="fa fa-chevron-down" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="lista-sugerencias" class="suggestions-list">
+        <!-- Se llena con JS -->
+        <p
+          style="font-size: 0.8rem; color: #666; padding: 10px"
+          data-i18n="Escaneando zona..."
+        >
+          Escaneando zona...
+        </p>
+      </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <!-- Nuestro Script Lógico -->
+    <script type="module" src="js/mapa.js"></script>
+  </body>
+</html>

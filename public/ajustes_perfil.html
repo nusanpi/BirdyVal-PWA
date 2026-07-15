@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="Ajustes — BirdyVal">Ajustes — BirdyVal</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#4fa17f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="BirdyVal" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+
+  <body>
+    <mi-cabecera></mi-cabecera>
+
+    <main class="ajustes-page">
+      <!-- Header Interior -->
+      <header class="ajustes-header">
+        <button
+          class="ajustes-back"
+          onclick="window.location.href = 'perfil.html'"
+          aria-label="Volver"
+          data-i18n-aria-label="Volver"
+        >
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        <h1 class="ajustes-title" data-i18n="Editar Perfil">Editar Perfil</h1>
+      </header>
+
+      <form id="profileForm">
+        <!-- Sección Foto -->
+        <div class="edit-avatar-section">
+          <div
+            class="avatar-wrapper"
+            onclick="document.getElementById('fileInput').click()"
+          >
+            <img
+              src="img/user_default.png"
+              alt="Tu foto"
+              class="avatar-img"
+              id="previewAvatar"
+            />
+            <div class="avatar-edit-icon"><i class="fa fa-camera"></i></div>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" hidden />
+          <p
+            style="font-size: 0.85rem; color: #888"
+            data-i18n="Toca para cambiar"
+          >
+            Toca para cambiar
+          </p>
+        </div>
+
+        <!-- Campos -->
+        <div class="form-section">
+          <div class="form-group">
+            <label
+              class="form-label"
+              for="nombreUsuario"
+              data-i18n="Nombre de usuario"
+              >Nombre de usuario</label
+            >
+            <input
+              type="text"
+              id="nombreUsuario"
+              class="form-input"
+              placeholder="Ej: Nuria"
+              data-i18n-placeholder="Ej: Nuria"
+              required
+            />
+          </div>
+
+          <!-- <div class="form-group">
+                    <label class="form-label" for="apodoUsuario">Nombre de usuario (Nick)</label>
+                    <div style="position:relative;">
+                        <span style="position:absolute; left:12px; top:12px; color:#aaa;">@</span>
+                        <input type="text" id="apodoUsuario" class="form-input" style="padding-left: 30px;" placeholder="bird_lover99" required>
+                    </div>
+                </div> -->
+
+          <div class="form-group">
+            <label class="form-label" for="bioUsuario" data-i18n="Biografía"
+              >Biografía</label
+            >
+            <textarea
+              id="bioUsuario"
+              class="form-input form-textarea"
+              placeholder="Cuéntanos algo sobre ti..."
+              data-i18n-placeholder="Cuéntanos algo sobre ti..."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label
+              class="form-label"
+              for="emailUsuario"
+              data-i18n="Correo electrónico"
+              >Correo electrónico</label
+            >
+            <input
+              type="email"
+              id="emailUsuario"
+              class="form-input"
+              value="usuario@email.com"
+              title="El correo no se puede cambiar"
+              disabled
+              style="opacity: 0.6; cursor: not-allowed"
+            />
+            <small
+              style="color: #aaa; font-size: 0.75rem"
+              data-i18n="Para cambiar tu email contacta a soporte."
+              >Para cambiar tu email contacta a soporte.</small
+            >
+          </div>
+
+          <div class="form-divider"></div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="Seguridad">Seguridad</label>
+            <button
+              type="button"
+              class="form-input"
+              style="
+                text-align: left;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span data-i18n="Cambiar contraseña">Cambiar contraseña</span>
+              <i class="fa fa-angle-right" style="color: #ccc"></i>
+            </button>
+          </div>
+
+          <!-- Botón Guardar Inferior -->
+          <button type="submit" class="btn-save-bottom">
+            <i class="fa fa-save"></i>
+            <span data-i18n="Guardar cambios">Guardar cambios</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Zona de peligro / Logout -->
+      <div class="danger-zone">
+        <button class="btn-logout" id="btnLogout">
+          <i class="fa fa-sign-out-alt"></i>
+          <span data-i18n="Cerrar Sesión">Cerrar Sesión</span>
+        </button>
+      </div>
+    </main>
+
+    <mi-pie></mi-pie>
+
+    <!-- Scripts -->
+    <script type="module" src="js/mis-etiquetas.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <!-- Asumido para lógica de usuario -->
+    <script type="module" src="js/ajustes_perfil.js"></script>
+  </body>
+</html>

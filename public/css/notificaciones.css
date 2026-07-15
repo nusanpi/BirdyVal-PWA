@@ -1,0 +1,104 @@
+/* ================================
+   NOTIFICACIONES.CSS — BirdyVal
+   Sistema de toasts flotantes
+================================ */
+.toast-container {
+  position: fixed;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  pointer-events: none;
+  width: min(92vw, 420px);
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius, 10px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  width: 100%;
+  pointer-events: all;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.toast--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast--saliendo {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+/* Colores por tipo */
+.toast--exito {
+  background: #edfaf3;
+  color: #166534;
+  border-left: 4px solid #22c55e;
+}
+
+.toast--error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-left: 4px solid #ef4444;
+}
+
+.toast--aviso {
+  background: #fffbeb;
+  color: #92400e;
+  border-left: 4px solid #f59e0b;
+}
+
+.toast--info {
+  background: #eff6ff;
+  color: #1e40af;
+  border-left: 4px solid #3b82f6;
+}
+
+.toast__icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.toast__mensaje {
+  flex: 1;
+  word-break: break-word;
+}
+
+.toast__cerrar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0 0 0 0.4rem;
+  flex-shrink: 0;
+  color: inherit;
+  opacity: 0.55;
+  transition: opacity 0.15s;
+}
+
+.toast__cerrar:hover {
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .toast-container {
+    top: 0.75rem;
+    width: 94vw;
+  }
+}

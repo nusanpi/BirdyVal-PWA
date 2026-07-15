@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Buscador de especies — BirdyVal</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#4fa17f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="BirdyVal" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="icon" href="img/logo_sintexto.png" type="image/png" />
+  </head>
+  <body class="buscador-page">
+    <mi-cabecera></mi-cabecera>
+
+    <main class="buscador-main" aria-labelledby="buscadorTitulo">
+      <div class="buscador-header">
+        <button
+          class="search-back"
+          aria-label="Volver"
+          data-i18n-aria-label="Volver"
+          onclick="history.back()"
+        >
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        <section class="card buscador">
+          <div class="buscador-contenido">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Introduce nombre de especie..."
+              aria-label="Buscar especie"
+              autocomplete="off"
+              autofocus
+            />
+          </div>
+        </section>
+      </div>
+
+      <h1
+        id="buscadorTitulo"
+        class="visually-hidden"
+        data-i18n="Buscador de especies"
+      >
+        Buscador de especies
+      </h1>
+
+      <ul id="speciesList" class="species-list" aria-live="polite"></ul>
+    </main>
+
+    <mi-pie></mi-pie>
+
+    <script type="module" src="js/mis-etiquetas.js"></script>
+    <script type="module" src="js/buscador.js"></script>
+  </body>
+</html>
