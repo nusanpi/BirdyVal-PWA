@@ -24,7 +24,10 @@
 
 ## Demo
 
-<!-- Drag & drop demo_birdyval_github.mp4 into this section while editing the README on github.com — GitHub will replace it with an embedded video player. Then delete this comment. -->
+
+
+https://github.com/user-attachments/assets/c7349a0c-70d2-4fc4-a69e-d6f7e131b7c6
+
 
 ## Features
 
